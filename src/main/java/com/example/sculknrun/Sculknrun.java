@@ -47,9 +47,9 @@ public class Sculknrun
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
-    public static final DeferredBlock<Block> EXAMPLE_BLOCK = BLOCKS.registerSimpleBlock("sculk_node", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
+    public static final DeferredBlock<Block> SCULK_NODE = BLOCKS.registerSimpleBlock("sculk_node", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
-    public static final DeferredItem<BlockItem> EXAMPLE_BLOCK_ITEM = ITEMS.registerSimpleBlockItem("sculk_node", EXAMPLE_BLOCK);
+    public static final DeferredItem<BlockItem> SCULK_NODE_ITEM = ITEMS.registerSimpleBlockItem("sculk_node", SCULK_NODE);
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("sculk_heart", new Item.Properties().food(new FoodProperties.Builder()
@@ -107,7 +107,7 @@ public class Sculknrun
     private void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
-            event.accept(EXAMPLE_BLOCK_ITEM);
+            event.accept(SCULK_NODE_ITEM);
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
