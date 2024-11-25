@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "sculknrun:block/sculk_node"
+    }
+  }
+}
