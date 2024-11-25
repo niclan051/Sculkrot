@@ -1,5 +1,6 @@
 package com.example.sculknrun;
 
+import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -70,6 +71,7 @@ public class Sculknrun
     {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(SculknrunDataGenerator::gatherData);
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
