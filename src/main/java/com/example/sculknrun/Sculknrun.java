@@ -53,16 +53,16 @@ public class Sculknrun
     public static final DeferredItem<BlockItem> SCULK_NODE_ITEM = ITEMS.registerSimpleBlockItem("sculk_node", SCULK_NODE);
 
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
-    public static final DeferredItem<Item> EXAMPLE_ITEM = ITEMS.registerSimpleItem("sculk_heart", new Item.Properties().food(new FoodProperties.Builder()
-            .alwaysEat().nutrition(1).saturationMod(2f).build()));
+    public static final DeferredItem<Item> SCULK_WINE = ITEMS.registerSimpleItem("sculk_wine", new Item.Properties().food(new FoodProperties.Builder()
+            .alwaysEat().nutrition(4).saturationMod(2f).build()));
 
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("sculknrun", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.sculknrun")) //The language key for the title of your CreativeModeTab
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
+            .icon(() -> SCULK_WINE.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
-                output.accept(EXAMPLE_ITEM.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
+                output.accept(SCULK_WINE.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
             }).build());
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
