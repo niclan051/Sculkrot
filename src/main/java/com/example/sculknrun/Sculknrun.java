@@ -60,6 +60,9 @@ public class Sculknrun
     public static final DeferredItem<Item> SCULK_WINE = ITEMS.registerSimpleItem("sculk_wine", new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEat().nutrition(4).saturationMod(2f).build()));
 
+    public static final DeferredItem<Item> SUPERSONIC_BOLT = ITEMS.registerSimpleItem("supersonic_bolt");
+    public static final DeferredItem<Item> QUASAR = ITEMS.registerSimpleItem("quasar");
+
     // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("sculknrun", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.sculknrun")) //The language key for the title of your CreativeModeTab
