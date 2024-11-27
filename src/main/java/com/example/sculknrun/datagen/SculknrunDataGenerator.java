@@ -13,10 +13,7 @@ public class SculknrunDataGenerator {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
         generator.addProvider(
-                event.includeClient(), new SculknrunBlockStateProvider(
-                        output, Sculknrun.MODID,
-                        existingFileHelper
-                )
-        );
+                event.includeClient(), new ModBlockStateProvider(output, Sculknrun.MODID, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModLanguageProvider(output, Sculknrun.MODID));
     }
 }

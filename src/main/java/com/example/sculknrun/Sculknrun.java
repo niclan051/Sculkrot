@@ -1,6 +1,9 @@
 package com.example.sculknrun;
 
+import com.example.sculknrun.block.SculkNodeBlock;
+import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
+import com.example.sculknrun.effect.ModMobEffects;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -11,7 +14,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -48,7 +50,9 @@ public class Sculknrun
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
 
     // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
-    public static final DeferredBlock<Block> SCULK_NODE = BLOCKS.registerSimpleBlock("sculk_node", BlockBehaviour.Properties.of().mapColor(MapColor.STONE));
+    public static final DeferredBlock<SculkNodeBlock> SCULK_NODE = BLOCKS.register("sculk_node", () -> new SculkNodeBlock(
+            BlockBehaviour.Properties.of().mapColor(MapColor.STONE))
+    );
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> SCULK_NODE_ITEM = ITEMS.registerSimpleBlockItem("sculk_node", SCULK_NODE);
 
@@ -79,6 +83,9 @@ public class Sculknrun
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+
+        ModMobEffects.register(modEventBus);
+        ModBlockEntityTypes.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
