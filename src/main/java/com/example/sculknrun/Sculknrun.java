@@ -1,6 +1,7 @@
 package com.example.sculknrun;
 
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
+import com.example.sculknrun.effect.ModMobEffects;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -79,6 +80,8 @@ public class Sculknrun
         ITEMS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
+
+        ModMobEffects.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
