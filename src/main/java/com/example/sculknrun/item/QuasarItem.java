@@ -1,7 +1,7 @@
 package com.example.sculknrun.item;
 
 import com.example.sculknrun.Sculknrun;
-import net.minecraft.nbt.CompoundTag;
+import com.example.sculknrun.item.component.ModDataComponentTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -14,29 +14,26 @@ import net.minecraft.world.level.Level;
 
 @SuppressWarnings("NullableProblems") // SHUT THE FUCK UPPP
 public class QuasarItem extends Item {
-    public static final ResourceLocation MODEL_STANDBY = new ResourceLocation(Sculknrun.MODID, "quasar_standby");
-    public static final ResourceLocation MODEL_CHARGE_1 = new ResourceLocation(Sculknrun.MODID, "quasar_charge_1");
-    public static final ResourceLocation MODEL_CHARGE_2 = new ResourceLocation(Sculknrun.MODID, "quasar_charge_2");
-    public static final ResourceLocation MODEL_CHARGE_3 = new ResourceLocation(Sculknrun.MODID, "quasar_charge_3");
-    public static final ResourceLocation MODEL_CHARGED = new ResourceLocation(Sculknrun.MODID, "quasar_charged");
-    public static final ResourceLocation PULLING = new ResourceLocation(Sculknrun.MODID, "pulling");
-    public static final ResourceLocation PULL = new ResourceLocation(Sculknrun.MODID, "pull");
-    public static final ResourceLocation CHARGED = new ResourceLocation(Sculknrun.MODID, "charged");
+    public static final ResourceLocation MODEL_STANDBY = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "quasar");
+    public static final ResourceLocation MODEL_CHARGE_1 = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "quasar_charge_1");
+    public static final ResourceLocation MODEL_CHARGE_2 = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "quasar_charge_2");
+    public static final ResourceLocation MODEL_CHARGE_3 = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "quasar_charge_3");
+    public static final ResourceLocation MODEL_CHARGED = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "quasar_charged");
+    public static final ResourceLocation PULLING = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "pulling");
+    public static final ResourceLocation PULL = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "pull");
+    public static final ResourceLocation CHARGED = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "charged");
 
-    public static final String KEY_CHARGED = "sculknrun_Charged";
 
     public QuasarItem(Properties pProperties) {
         super(pProperties);
     }
 
     public static boolean isCharged(ItemStack stack) {
-        CompoundTag nbt = stack.getOrCreateTag();
-        return nbt.contains(KEY_CHARGED) && nbt.getBoolean(KEY_CHARGED);
+        return stack.getOrDefault(ModDataComponentTypes.QUASAR_CHARGED, false);
     }
 
     public static void setCharged(ItemStack stack, boolean charged) {
-        CompoundTag nbt = stack.getOrCreateTag();
-        nbt.putBoolean(KEY_CHARGED, charged);
+        stack.set(ModDataComponentTypes.QUASAR_CHARGED, charged);
     }
 
     public static void shoot(Level level, LivingEntity user, ItemStack stack) {
@@ -45,8 +42,8 @@ public class QuasarItem extends Item {
 
 
     @Override
-    public int getUseDuration(ItemStack stack) {
-        return isCharged(stack)  ? super.getUseDuration(stack) : 32;
+    public int getUseDuration(ItemStack stack, LivingEntity entity) {
+        return isCharged(stack) ? super.getUseDuration(stack, entity) : 32;
     }
 
     @Override

@@ -18,30 +18,33 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        var quasar = customTextureWithExistingParent(QuasarItem.MODEL_STANDBY, "item/crossbow");
+        var quasar = texturedWithExistingParent(QuasarItem.MODEL_STANDBY, "item/crossbow");
 
         quasar.override()
               .predicate(QuasarItem.PULLING, 1f)
               .predicate(QuasarItem.PULL, 0.33f)
-              .model(customTextureWithExistingParent(QuasarItem.MODEL_CHARGE_1, quasar.getLocation().toString()))
+              .model(texturedWithExistingParent(QuasarItem.MODEL_CHARGE_1, quasar.getLocation().toString()))
               .end();
 
         quasar.override()
               .predicate(QuasarItem.PULLING, 1f)
               .predicate(QuasarItem.PULL, 0.66f)
-              .model(customTextureWithExistingParent(QuasarItem.MODEL_CHARGE_2, quasar.getLocation().toString()))
+              .model(texturedWithExistingParent(QuasarItem.MODEL_CHARGE_2, quasar.getLocation().toString()))
               .end();
 
         quasar.override()
               .predicate(QuasarItem.PULLING, 1f)
               .predicate(QuasarItem.PULL, 1f)
-              .model(customTextureWithExistingParent(QuasarItem.MODEL_CHARGE_3, quasar.getLocation().toString()))
+              .model(texturedWithExistingParent(QuasarItem.MODEL_CHARGE_3, quasar.getLocation().toString()))
               .end();
 
         quasar.override()
               .predicate(QuasarItem.CHARGED, 1f)
-              .model(customTextureWithExistingParent(QuasarItem.MODEL_CHARGED, quasar.getLocation().toString()))
+              .model(texturedWithExistingParent(QuasarItem.MODEL_CHARGED, quasar.getLocation().toString()))
               .end();
+
+        basicItem(Sculknrun.SUPERSONIC_BOLT.asItem());
+        basicItem(Sculknrun.SCULK_WINE.asItem());
     }
 
     private ItemModelBuilder handheld(Item item) {
@@ -49,11 +52,11 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     private ItemModelBuilder handheld(ResourceLocation loc) {
-        return customTextureWithExistingParent(loc, "item/handheld");
+        return texturedWithExistingParent(loc, "item/handheld");
     }
 
-    private ItemModelBuilder customTextureWithExistingParent(ResourceLocation loc, String parent) {
+    private ItemModelBuilder texturedWithExistingParent(ResourceLocation loc, String parent) {
         return withExistingParent(loc.toString(), parent)
-                .texture("layer0", new ResourceLocation(loc.getNamespace(), "item/" + loc.getPath()));
+                .texture("layer0", ResourceLocation.fromNamespaceAndPath(loc.getNamespace(), "item/" + loc.getPath()));
     }
 }

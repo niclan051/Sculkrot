@@ -5,6 +5,7 @@ import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
 import com.example.sculknrun.item.QuasarItem;
+import com.example.sculknrun.item.component.ModDataComponentTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -93,6 +94,7 @@ public class Sculknrun {
 
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
+        ModDataComponentTypes.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
 
@@ -156,8 +158,8 @@ public class Sculknrun {
                         if (livingEntity == null || !livingEntity.isUsingItem()) {
                             return 0;
                         }
-                        return (float) (stack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) /
-                               stack.getUseDuration();
+                        return (float) (stack.getUseDuration(livingEntity) - livingEntity.getUseItemRemainingTicks()) /
+                               stack.getUseDuration(livingEntity);
                     }
             );
             ItemProperties.register(
