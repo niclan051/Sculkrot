@@ -24,7 +24,7 @@ public class SculkNodeBlockEntity extends BlockEntity {
     public static <T extends BlockEntity> void tick(Level level, BlockPos pos, BlockState blockState, T blockEntity) {
         AABB effectArea = AABB.encapsulatingFullBlocks(pos, pos).inflate(10);
         level.getEntitiesOfClass(LivingEntity.class, effectArea).forEach(livingEntity -> livingEntity.addEffect(
-                new MobEffectInstance(ModMobEffects.SCULKED.get(), 20 * 10, 0, true, true)
+                new MobEffectInstance(ModMobEffects.SCULKED, 20 * 10, 0, true, true)
         ));
     }
 }
