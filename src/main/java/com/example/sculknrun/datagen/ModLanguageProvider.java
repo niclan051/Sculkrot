@@ -13,7 +13,7 @@ public class ModLanguageProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         this.addEffect(ModMobEffects.SCULKED, "Sculked");
-        this.addItem(Sculknrun.SCULK_WINE, "Sculk Wine");
+        this.addItem(Sculknrun.QUASAR, "Quasar");
         this.addBlock(Sculknrun.SCULK_NODE, "Sculk Node");
 
         //dont write translations manually

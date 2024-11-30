@@ -4,8 +4,10 @@ import com.example.sculknrun.block.SculkNodeBlock;
 import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
+import com.example.sculknrun.item.QuasarItem;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -37,46 +39,54 @@ import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(Sculknrun.MODID)
-public class Sculknrun
-{
+public class Sculknrun {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "sculknrun";
-    // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
     // Create a Deferred Register to hold Blocks which will all be registered under the "examplemod" namespace
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(MODID);
+    // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
+    public static final DeferredBlock<SculkNodeBlock> SCULK_NODE = BLOCKS.register(
+            "sculk_node", () -> new SculkNodeBlock(
+                    BlockBehaviour.Properties.of().mapColor(MapColor.STONE))
+    );
     // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
-    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
-    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
-
-    // Creates a new Block with the id "examplemod:example_block", combining the namespace and path
-    public static final DeferredBlock<SculkNodeBlock> SCULK_NODE = BLOCKS.register("sculk_node", () -> new SculkNodeBlock(
-            BlockBehaviour.Properties.of().mapColor(MapColor.STONE))
-    );
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
-    public static final DeferredItem<BlockItem> SCULK_NODE_ITEM = ITEMS.registerSimpleBlockItem("sculk_node", SCULK_NODE);
-
+    public static final DeferredItem<BlockItem> SCULK_NODE_ITEM = ITEMS.registerSimpleBlockItem(
+            "sculk_node", SCULK_NODE);
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final DeferredItem<Item> SCULK_WINE = ITEMS.registerSimpleItem("sculk_wine", new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEdible().nutrition(4).saturationModifier(2f).build()));
 
     public static final DeferredItem<Item> SUPERSONIC_BOLT = ITEMS.registerSimpleItem("supersonic_bolt");
-    public static final DeferredItem<Item> QUASAR = ITEMS.registerSimpleItem("quasar");
-
-    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
-    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("sculknrun", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.sculknrun")) //The language key for the title of your CreativeModeTab
-            .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> SCULK_WINE.get().getDefaultInstance())
-            .displayItems((parameters, output) -> {
-                output.accept(SCULK_WINE.get()); // Add the example item to the tab. For your own tabs, this method is preferred over the event
-            }).build());
+    public static final DeferredItem<QuasarItem> QUASAR = ITEMS.register(
+            "quasar",
+            () -> new QuasarItem(new Item.Properties().stacksTo(1))
+    );
+    // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
+    public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(
+            Registries.CREATIVE_MODE_TAB, MODID);
+    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the
+    // combat tab
+    public static final DeferredHolder<CreativeModeTab, CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register(
+            "sculknrun", () -> CreativeModeTab.builder()
+                                              .title(Component.translatable(
+                                                      "itemGroup.sculknrun")) //The language key for the title of
+                                              // your CreativeModeTab
+                                              .withTabsBefore(CreativeModeTabs.COMBAT)
+                                              .icon(() -> SCULK_WINE.get().getDefaultInstance())
+                                              .displayItems((parameters, output) -> {
+                                                  output.accept(
+                                                          SCULK_WINE.get()); // Add the example item to the tab. For
+                                                  // your own tabs, this method is preferred over the event
+                                              }).build()
+    );
+    // Directly reference a slf4j logger
+    private static final Logger LOGGER = LogUtils.getLogger();
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
     // FML will recognize some parameter types like IEventBus or ModContainer and pass them in automatically.
-    public Sculknrun(IEventBus modEventBus)
-    {
+    public Sculknrun(IEventBus modEventBus) {
         // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(SculknrunDataGenerator::gatherData);
@@ -85,6 +95,7 @@ public class Sculknrun
         BLOCKS.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
+
         // Register the Deferred Register to the mod event bus so tabs get registered
         CREATIVE_MODE_TABS.register(modEventBus);
 
@@ -93,7 +104,8 @@ public class Sculknrun
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
-        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.
+        // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like
+        // onServerStarting() below.
         NeoForge.EVENT_BUS.register(this);
 
         // Register the item to a creative tab
@@ -103,8 +115,7 @@ public class Sculknrun
         ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
-    private void commonSetup(final FMLCommonSetupEvent event)
-    {
+    private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
         LOGGER.info("HELLO FROM COMMON SETUP");
 
@@ -125,8 +136,7 @@ public class Sculknrun
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
     @SubscribeEvent
-    public void onServerStarting(ServerStartingEvent event)
-    {
+    public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
@@ -136,11 +146,29 @@ public class Sculknrun
     public static class ClientModEvents
     {
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
+        public static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
             LOGGER.info("HELLO FROM CLIENT SETUP");
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            ItemProperties.register(
+                    QUASAR.asItem(), QuasarItem.PULL,
+                    (stack, level, livingEntity, seed) -> {
+                        if (livingEntity == null || !livingEntity.isUsingItem()) {
+                            return 0;
+                        }
+                        return (float) (stack.getUseDuration() - livingEntity.getUseItemRemainingTicks()) /
+                               stack.getUseDuration();
+                    }
+            );
+            ItemProperties.register(
+                    QUASAR.asItem(), QuasarItem.CHARGED, (stack, level, livingEntity, seed) ->
+                            QuasarItem.isCharged(stack) ? 1 : 0
+            );
+            ItemProperties.register(
+                    QUASAR.asItem(), QuasarItem.PULLING, (stack, level, livingEntity, seed) ->
+                            livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == stack ? 1
+                                                                                                                     : 0
+            );
         }
     }
 }
