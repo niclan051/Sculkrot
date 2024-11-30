@@ -12,10 +12,21 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(Gui.class)
 public abstract class GuiMixin {
     @ModifyArg(method = "renderHeart", at = @At(value = "INVOKE",
-                                               target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/ResourceLocation;IIII)V"))
+                                                target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite" +
+                                                         "(Lnet/minecraft/resources/ResourceLocation;IIII)V"))
+    private ResourceLocation renderSculkHealth(ResourceLocation pSprite) {
+        if (Minecraft.getInstance().player.hasEffect(ModMobEffects.SCULKED)) {
+            return ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "sculk_heart");
+        }
+        return pSprite;
+    }
+
+    @ModifyArg(method = "renderFood", at = @At(value = "INVOKE",
+                                               target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite" +
+                                                        "(Lnet/minecraft/resources/ResourceLocation;IIII)V"))
     private ResourceLocation renderSculkHunger(ResourceLocation pSprite) {
-        if (Minecraft.getInstance().player.hasEffect(ModMobEffects.SCULKED.get())) {
-            return new ResourceLocation(Sculknrun.MODID, "sculk_heart");
+        if (Minecraft.getInstance().player.hasEffect(ModMobEffects.SCULKED)) {
+            return ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "sculk_food");
         }
         return pSprite;
     }

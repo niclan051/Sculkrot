@@ -3,11 +3,8 @@
   "package": "com.example.sculknrun.mixin",
   "compatibilityLevel": "JAVA_17",
   "refmap": "sculknrun.refmap.json",
-  "mixins": [
-    "GuiMixin"
-  ],
   "client": [
-    "ExtendedGuiMixin"
+    "GuiMixin"
   ],
   "injectors": {
     "defaultRequire": 1
