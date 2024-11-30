@@ -18,18 +18,24 @@ public class ModItemModelProvider extends ItemModelProvider {
 
     @Override
     protected void registerModels() {
-        var quasar = customTextureWithExistingParent(Sculknrun.QUASAR.getId(), "item/crossbow");
+        var quasar = customTextureWithExistingParent(QuasarItem.MODEL_STANDBY, "item/crossbow");
 
         quasar.override()
               .predicate(QuasarItem.PULLING, 1f)
-              .predicate(QuasarItem.PULL, 0.5f)
+              .predicate(QuasarItem.PULL, 0.33f)
               .model(customTextureWithExistingParent(QuasarItem.MODEL_CHARGE_1, quasar.getLocation().toString()))
               .end();
 
         quasar.override()
               .predicate(QuasarItem.PULLING, 1f)
-              .predicate(QuasarItem.PULL, 1f)
+              .predicate(QuasarItem.PULL, 0.66f)
               .model(customTextureWithExistingParent(QuasarItem.MODEL_CHARGE_2, quasar.getLocation().toString()))
+              .end();
+
+        quasar.override()
+              .predicate(QuasarItem.PULLING, 1f)
+              .predicate(QuasarItem.PULL, 1f)
+              .model(customTextureWithExistingParent(QuasarItem.MODEL_CHARGE_3, quasar.getLocation().toString()))
               .end();
 
         quasar.override()

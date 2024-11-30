@@ -14,8 +14,10 @@ import net.minecraft.world.level.Level;
 
 @SuppressWarnings("NullableProblems") // SHUT THE FUCK UPPP
 public class QuasarItem extends Item {
+    public static final ResourceLocation MODEL_STANDBY = new ResourceLocation(Sculknrun.MODID, "quasar_standby");
     public static final ResourceLocation MODEL_CHARGE_1 = new ResourceLocation(Sculknrun.MODID, "quasar_charge_1");
     public static final ResourceLocation MODEL_CHARGE_2 = new ResourceLocation(Sculknrun.MODID, "quasar_charge_2");
+    public static final ResourceLocation MODEL_CHARGE_3 = new ResourceLocation(Sculknrun.MODID, "quasar_charge_3");
     public static final ResourceLocation MODEL_CHARGED = new ResourceLocation(Sculknrun.MODID, "quasar_charged");
     public static final ResourceLocation PULLING = new ResourceLocation(Sculknrun.MODID, "pulling");
     public static final ResourceLocation PULL = new ResourceLocation(Sculknrun.MODID, "pull");
