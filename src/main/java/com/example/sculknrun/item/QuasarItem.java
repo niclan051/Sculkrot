@@ -20,6 +20,7 @@ import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
+import team.lodestar.lodestone.systems.particle.data.GenericParticleDataBuilder;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.DirectionalBehaviorComponent;
 
 import java.util.function.Consumer;
@@ -82,7 +83,7 @@ public class QuasarItem extends Item {
             ).inflate(2);
             level.getEntities(user, damageBox, entity -> entity.position().distanceTo(currentPos) <= 2)
                  .forEach(entity -> entity.hurt(entity.damageSources().sonicBoom(user), 50));
-        });
+        }, false);
 
         WorldParticleBuilder shockwaveParticles = WorldParticleBuilder.create(ModParticleTypes.QUASAR_BOLT)
                 .setScaleData(GenericParticleData.create(3f, 10f).build())
@@ -100,7 +101,7 @@ public class QuasarItem extends Item {
                             (float) (20 / (entity.position().distanceTo(currentPos) * 4))
                         )
                  );
-        });
+        }, true);
 
         Vec3 soundPos = user.getEyePosition().add(Vec3.directionFromRotation(user.getRotationVector()));
         level.playSound(
@@ -111,7 +112,7 @@ public class QuasarItem extends Item {
 
     private static void spawnRay(Level level, Vec3 origin, Vec3 target, double step,
                                  WorldParticleBuilder particleBuilder,
-                                 Consumer<Vec3> onIteration) {
+                                 Consumer<Vec3> onIteration, boolean isShockwave) {
         Vec3 diff = target.subtract(origin);
         Vec3 diffNormalized = diff.normalize();
         for (double i = 1; i < diff.length(); i += step) {
@@ -120,6 +121,9 @@ public class QuasarItem extends Item {
             onIteration.accept(currentPos);
 
             particleBuilder.setBehavior(new DirectionalBehaviorComponent(diffNormalized));
+            if (isShockwave) {
+                particleBuilder.setScaleData(GenericParticleData.create(2f, (float) (2.5f + 10f * (i / diff.length()))).build());
+            }
             particleBuilder.spawn(level, currentPos.x, currentPos.y, currentPos.z);
         }
     }
