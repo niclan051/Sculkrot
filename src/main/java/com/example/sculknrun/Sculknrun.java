@@ -6,6 +6,7 @@ import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
 import com.example.sculknrun.item.QuasarItem;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
+import com.example.sculknrun.particle.ModParticleTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -29,6 +30,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -37,6 +39,7 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.slf4j.Logger;
+import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(Sculknrun.MODID)
@@ -103,6 +106,7 @@ public class Sculknrun {
 
         ModMobEffects.register(modEventBus);
         ModBlockEntityTypes.register(modEventBus);
+        ModParticleTypes.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (ExampleMod) to respond directly to events.
@@ -171,6 +175,11 @@ public class Sculknrun {
                             livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == stack ? 1
                                                                                                                      : 0
             );
+        }
+
+        @SubscribeEvent
+        public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
+            event.registerSpriteSet(ModParticleTypes.QUASAR_BOLT.get(), LodestoneWorldParticleType.Factory::new);
         }
     }
 }

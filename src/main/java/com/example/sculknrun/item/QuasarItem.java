@@ -2,9 +2,11 @@ package com.example.sculknrun.item;
 
 import com.example.sculknrun.Sculknrun;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
+import com.example.sculknrun.particle.ModParticleTypes;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,11 +17,13 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import team.lodestar.lodestone.registry.common.particle.LodestoneParticleTypes;
+import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
+import team.lodestar.lodestone.systems.particle.world.behaviors.components.DirectionalBehaviorComponent;
 
-import java.awt.*;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @SuppressWarnings("NullableProblems") // SHUT THE FUCK UPPP
 public class QuasarItem extends Item {
@@ -51,9 +55,6 @@ public class QuasarItem extends Item {
     }
 
     public static void shoot(Level level, LivingEntity user, ItemStack stack) {
-        user.sendSystemMessage(Component.literal("thy end is now"));
-        Color startingColor = new Color(100, 0, 100);
-        Color endingColor = new Color(0, 100, 200);
         Vec3 eyePos = user.getEyePosition();
 
         var hitResult = level.clip(new ClipContext(
@@ -62,34 +63,64 @@ public class QuasarItem extends Item {
         ));
         Vec3 endPos = hitResult.getLocation();
 
-        spawnRay(
-                level, eyePos, eyePos.add(Vec3.directionFromRotation(user.getRotationVector()).multiply(10, 10, 10)),
-                0.25, true
+        WorldParticleBuilder deathRayParticles = WorldParticleBuilder.create(ModParticleTypes.QUASAR_BOLT)
+                .setScaleData(GenericParticleData.create(3f, 0f)
+                .setEasing(new Easing("fast") {
+                    @Override
+                    public float ease(float value, float min, float max, float time) {
+                        return (float) (Math.pow(value / (time / 3), 2.5) * max + min);
+                    }
+                }).build())
+                .setTransparencyData(GenericParticleData.create(1f).build())
+                .setLifetime(40)
+                .enableNoClip();
+
+        spawnRay(level, eyePos, endPos, 0.05, deathRayParticles,currentPos -> {
+            AABB damageBox = AABB.encapsulatingFullBlocks(
+                    BlockPos.containing(currentPos),
+                    BlockPos.containing(currentPos)
+            ).inflate(2);
+            level.getEntities(user, damageBox, entity -> entity.position().distanceTo(currentPos) <= 2)
+                 .forEach(entity -> entity.hurt(entity.damageSources().sonicBoom(user), 50));
+        });
+
+        WorldParticleBuilder shockwaveParticles = WorldParticleBuilder.create(ModParticleTypes.QUASAR_BOLT)
+                .setScaleData(GenericParticleData.create(3f, 10f).build())
+                .setTransparencyData(GenericParticleData.create(0.75f, 0f).build())
+                .setLifetime(100)
+                .enableNoClip();
+        spawnRay(level, eyePos, endPos, 2, shockwaveParticles, currentPos -> {
+            AABB damageBox = AABB.encapsulatingFullBlocks(
+                    BlockPos.containing(currentPos),
+                    BlockPos.containing(currentPos)
+            ).inflate(5);
+            level.getEntities(user, damageBox, entity -> entity.position().distanceTo(currentPos) <= 5)
+                 .forEach(entity -> entity.hurt(
+                            entity.damageSources().sonicBoom(user),
+                            (float) (20 / (entity.position().distanceTo(currentPos) * 4))
+                        )
+                 );
+        });
+
+        Vec3 soundPos = user.getEyePosition().add(Vec3.directionFromRotation(user.getRotationVector()));
+        level.playSound(
+                null, soundPos.x(), soundPos.y(), soundPos.z(),
+                SoundEvents.WARDEN_SONIC_BOOM, SoundSource.PLAYERS, 1, 1
         );
     }
 
-    private static void spawnRay(Level level, Vec3 origin, Vec3 target, double step, boolean main) {
+    private static void spawnRay(Level level, Vec3 origin, Vec3 target, double step,
+                                 WorldParticleBuilder particleBuilder,
+                                 Consumer<Vec3> onIteration) {
         Vec3 diff = target.subtract(origin);
         Vec3 diffNormalized = diff.normalize();
         for (double i = 1; i < diff.length(); i += step) {
             Vec3 currentPos = origin.add(diffNormalized.multiply(i, i, i));
-            WorldParticleBuilder.create(LodestoneParticleTypes.WISP_PARTICLE)
-                                .setScaleData(GenericParticleData.create(0.5f, 0).build())
-                                .setTransparencyData(GenericParticleData.create(0.75f, 0.25f).build())
-                                .setLifetime(40)
-                                .addMotion(0, 0.01f, 0)
-                                .enableNoClip()
-                                .spawn(level, currentPos.x, currentPos.y, currentPos.z);
-            if (main) {
-                double depth = 5;
-                for (double angle = 0; angle < 360; angle += 45) {
-                    double rad = Math.toRadians(angle);
-                    double sin = Math.sin(rad);
-                    double cos = Math.cos(rad);
-                    Vec3 subTarget = currentPos.add(depth * cos, depth * sin, 0);
-                    spawnRay(level, currentPos, subTarget, step, false);
-                }
-            }
+
+            onIteration.accept(currentPos);
+
+            particleBuilder.setBehavior(new DirectionalBehaviorComponent(diffNormalized));
+            particleBuilder.spawn(level, currentPos.x, currentPos.y, currentPos.z);
         }
     }
 

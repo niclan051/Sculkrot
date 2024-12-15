@@ -17,5 +17,6 @@ public class SculknrunDataGenerator {
         generator.addProvider(
                 event.includeClient(), new ModItemModelProvider(output, Sculknrun.MODID, existingFileHelper));
         generator.addProvider(event.includeClient(), new ModLanguageProvider(output, Sculknrun.MODID));
+        generator.addProvider(event.includeClient(), new ModParticleDescriptionProvider(output, existingFileHelper));
     }
 }
