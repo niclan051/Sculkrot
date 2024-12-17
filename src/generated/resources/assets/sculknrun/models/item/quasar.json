@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:item/crossbow",
+  "overrides": [
+    {
+      "model": "sculknrun:item/quasar_charge_1",
+      "predicate": {
+        "sculknrun:pull": 0.33,
+        "sculknrun:pulling": 1.0
+      }
+    },
+    {
+      "model": "sculknrun:item/quasar_charge_2",
+      "predicate": {
+        "sculknrun:pull": 0.66,
+        "sculknrun:pulling": 1.0
+      }
+    },
+    {
+      "model": "sculknrun:item/quasar_charge_3",
+      "predicate": {
+        "sculknrun:pull": 1.0,
+        "sculknrun:pulling": 1.0
+      }
+    },
+    {
+      "model": "sculknrun:item/quasar_charged",
+      "predicate": {
+        "sculknrun:charged": 1.0
+      }
+    }
+  ],
+  "textures": {
+    "layer0": "sculknrun:item/quasar"
+  }
+}
