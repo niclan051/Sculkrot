@@ -4,6 +4,7 @@ import com.example.sculknrun.block.SculkNodeBlock;
 import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
+import com.example.sculknrun.infection.InfectionSavedData;
 import com.example.sculknrun.item.QuasarItem;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
 import com.example.sculknrun.particle.ModParticleTypes;
@@ -34,6 +35,8 @@ import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -116,6 +119,7 @@ public class Sculknrun {
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(this::registerPayloadHandlers);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         ModLoadingContext.get().getActiveContainer().registerConfig(ModConfig.Type.COMMON, Config.SPEC);
@@ -145,6 +149,16 @@ public class Sculknrun {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
+    }
+    public static int infectionLevel = 0;
+
+    public void registerPayloadHandlers(final RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar("1");
+        registrar.playToClient(
+                InfectionSavedData.UpdatePayload.TYPE,
+                InfectionSavedData.UpdatePayload.STREAM_CODEC,
+                (payload, context) -> infectionLevel = payload.infectionLevel()
+        );
     }
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent

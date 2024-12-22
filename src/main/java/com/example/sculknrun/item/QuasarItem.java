@@ -1,10 +1,13 @@
 package com.example.sculknrun.item;
 
 import com.example.sculknrun.Sculknrun;
+import com.example.sculknrun.infection.InfectionSavedData;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
 import com.example.sculknrun.particle.ModParticleTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -20,11 +23,9 @@ import net.minecraft.world.phys.Vec3;
 import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
-import team.lodestar.lodestone.systems.particle.data.GenericParticleDataBuilder;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.DirectionalBehaviorComponent;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 @SuppressWarnings("NullableProblems") // SHUT THE FUCK UPPP
 public class QuasarItem extends Item {
@@ -82,7 +83,7 @@ public class QuasarItem extends Item {
                     BlockPos.containing(currentPos)
             ).inflate(2);
             level.getEntities(user, damageBox, entity -> entity.position().distanceTo(currentPos) <= 2)
-                 .forEach(entity -> entity.hurt(entity.damageSources().sonicBoom(user), 50));
+                 .forEach(entity -> entity.hurt(entity.damageSources().sonicBoom(user), 14));
         }, false);
 
         WorldParticleBuilder shockwaveParticles = WorldParticleBuilder.create(ModParticleTypes.QUASAR_BOLT)
@@ -98,7 +99,7 @@ public class QuasarItem extends Item {
             level.getEntities(user, damageBox, entity -> entity.position().distanceTo(currentPos) <= 5)
                  .forEach(entity -> entity.hurt(
                             entity.damageSources().sonicBoom(user),
-                            (float) (20 / (entity.position().distanceTo(currentPos) * 4))
+                            (float) (7 / (entity.position().distanceTo(currentPos) * 4))
                         )
                  );
         }, true);
@@ -139,6 +140,12 @@ public class QuasarItem extends Item {
         if (isCharged(stack)) {
             setCharged(stack, false);
             shoot(level, player, stack);
+            if (level instanceof ServerLevel serverLevel) {
+                InfectionSavedData infectionSavedData =
+                        InfectionSavedData.getOrCreate(serverLevel.getServer());
+                infectionSavedData.incrementInfectionLevel();
+                player.sendSystemMessage(Component.literal(String.valueOf(infectionSavedData.getInfectionLevel())));
+            }
             return InteractionResultHolder.consume(stack);
         }
         else {
