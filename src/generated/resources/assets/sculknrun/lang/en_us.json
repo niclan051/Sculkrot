@@ -1,5 +1,7 @@
 {
   "block.sculknrun.sculk_node": "Sculk Node",
   "effect.sculknrun.sculked": "Sculked",
-  "item.sculknrun.quasar": "Quasar"
+  "item.sculknrun.quasar": "Quasar",
+  "sculknrun.patchouli.sculkinomicon.landing": "Welcome to the Sculkinomicon",
+  "sculknrun.patchouli.sculkinomicon.name": "Sculkinomicon"
 }

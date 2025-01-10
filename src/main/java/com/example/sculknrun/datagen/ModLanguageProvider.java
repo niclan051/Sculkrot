@@ -16,6 +16,9 @@ public class ModLanguageProvider extends LanguageProvider {
         this.addItem(Sculknrun.QUASAR, "Quasar");
         this.addBlock(Sculknrun.SCULK_NODE, "Sculk Node");
 
+        this.add("sculknrun.patchouli.sculkinomicon.name", "Sculkinomicon");
+        this.add("sculknrun.patchouli.sculkinomicon.landing", "Welcome to the Sculkinomicon");
+
         //dont write translations manually
         //use this.add("test.sculknrun.some_translation_key", "translation")
     }

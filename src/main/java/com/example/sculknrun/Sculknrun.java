@@ -4,6 +4,7 @@ import com.example.sculknrun.block.SculkNodeBlock;
 import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
+import com.example.sculknrun.gameevent.ModGameEvents;
 import com.example.sculknrun.item.QuasarItem;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
 import com.example.sculknrun.particle.ModParticleTypes;
@@ -146,6 +147,7 @@ public class Sculknrun {
         // Do something when the server starts
         LOGGER.info("HELLO from server starting");
     }
+    public static int infectionLevel = 0;
 
     // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
     @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
