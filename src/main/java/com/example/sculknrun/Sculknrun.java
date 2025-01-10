@@ -4,6 +4,7 @@ import com.example.sculknrun.block.SculkNodeBlock;
 import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
+import com.example.sculknrun.gameevent.ModGameEvents;
 import com.example.sculknrun.item.QuasarItem;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
 import com.example.sculknrun.particle.ModParticleTypes;

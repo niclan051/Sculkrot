@@ -1,6 +1,7 @@
 package com.example.sculknrun.infection;
 
 import com.example.sculknrun.Sculknrun;
+import com.example.sculknrun.gameevent.ModGameEvents;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -9,9 +10,12 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.server.ServerLifecycleHooks;
 
 public class InfectionSavedData extends SavedData {
     private static final String DATA_KEY = Sculknrun.MODID;
@@ -22,18 +26,21 @@ public class InfectionSavedData extends SavedData {
 
     private int infectionLevel;
 
-    public static InfectionSavedData create() {
-        return new InfectionSavedData(0);
-    }
-
     protected InfectionSavedData(int infectionLevel) {
         this.infectionLevel = infectionLevel;
     }
 
-    public void setInfectionLevel(int infectionLevel) {
-        this.infectionLevel = Math.clamp(infectionLevel, 0, 10);
-        this.setDirty();
-        PacketDistributor.sendToAllPlayers(new UpdatePayload(this.infectionLevel));
+    public static InfectionSavedData create() {
+        return new InfectionSavedData(0);
+    }
+
+    public static InfectionSavedData getOrCreate(MinecraftServer server) {
+        return server.getLevel(Level.OVERWORLD).getDataStorage().computeIfAbsent(FACTORY, DATA_KEY);
+    }
+
+    public static InfectionSavedData load(CompoundTag tag, HolderLookup.Provider registries) {
+        int infectionLevel = tag.getInt(INFECTION_LEVEL_KEY);
+        return new InfectionSavedData(infectionLevel);
     }
 
     public void incrementInfectionLevel() {
@@ -44,13 +51,21 @@ public class InfectionSavedData extends SavedData {
         return infectionLevel;
     }
 
-    public static InfectionSavedData getOrCreate(MinecraftServer server) {
-        return server.getLevel(Level.OVERWORLD).getDataStorage().computeIfAbsent(FACTORY, DATA_KEY);
+    public void setInfectionLevel(int infectionLevel) {
+        this.infectionLevel = Math.clamp(infectionLevel, 0, 10);
+        this.setDirty();
+        this.onInfectionLevelChanged(this.infectionLevel);
     }
 
-    public static InfectionSavedData load(CompoundTag tag, HolderLookup.Provider registries) {
-        int infectionLevel = tag.getInt(INFECTION_LEVEL_KEY);
-        return new InfectionSavedData(infectionLevel);
+    public void onInfectionLevelChanged(int newLevel) {
+        PacketDistributor.sendToAllPlayers(new UpdatePayload(newLevel));
+        ServerLifecycleHooks.getCurrentServer().getAllLevels().forEach(
+                serverLevel -> serverLevel.players().stream().map(Entity::position)
+                        .forEach(pos -> serverLevel.gameEvent(
+                                         ModGameEvents.INFECTION_GROW, pos,
+                                         new GameEvent.Context(null, null)
+                                 )
+                        ));
     }
 
     @Override

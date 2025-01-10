@@ -36,16 +36,39 @@ public abstract class GuiMixin {
     }
 
     @Inject(method = "render", at = @At("TAIL"))
-    private void drawSomeShitIdk(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-        ResourceLocation background = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "infection_background");
-        ResourceLocation bar = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "infection_bar");
-        guiGraphics.blitSprite(background, 20, 20, 86, 16);
-        guiGraphics.blitSprite(bar,
-                               86, 16,
-                               0, 0,
-                               20, 20,
-                               0,
-                               (int) (86 * Sculknrun.infectionLevel / 10.0), 16
+    private void renderInfectionBar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        int startX = 20;
+        int startY = 20;
+        int padding = 5;
+
+        int numberWidth = 32;
+        int numberHeight = 10;
+        int barHeight = 16;
+        int barWidth = 86;
+
+        int middleY = startY + (Math.max(barHeight, numberHeight)) / 2;
+
+        ResourceLocation background = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID,
+                                                                            "infection/infection_background");
+        ResourceLocation bar = ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "infection/infection_bar");
+        ResourceLocation number = ResourceLocation.fromNamespaceAndPath(
+                Sculknrun.MODID,
+                "infection/infection_number_" + Sculknrun.infectionLevel
         );
+
+        int numberY = middleY - numberHeight / 2;
+        guiGraphics.blitSprite(number, startX, numberY, numberWidth, numberHeight);
+
+        int barX = startX + numberWidth + padding;
+        int barY = middleY - barHeight / 2;
+        guiGraphics.blitSprite(background, barX, barY, barWidth, barHeight);
+        guiGraphics.blitSprite(bar,
+                               barWidth, barHeight,
+                               0, 0,
+                               barX, barY,
+                               0,
+                               (int) (barWidth * Sculknrun.infectionLevel / 10.0), barHeight
+        );
+
     }
 }
