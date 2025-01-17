@@ -1,11 +1,12 @@
 package com.example.sculknrun;
 
+import com.example.sculknrun.armor.ModArmorMaterials;
 import com.example.sculknrun.block.SculkNodeBlock;
 import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
-import com.example.sculknrun.gameevent.ModGameEvents;
 import com.example.sculknrun.item.QuasarItem;
+import com.example.sculknrun.item.SculkHelmetItem;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
 import com.example.sculknrun.particle.ModParticleTypes;
 import com.mojang.logging.LogUtils;
@@ -15,10 +16,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -68,6 +66,11 @@ public class Sculknrun {
             "quasar",
             () -> new QuasarItem(new Item.Properties().stacksTo(1))
     );
+    public static final DeferredItem<ArmorItem> SCULK_HELMET = ITEMS.register("sculk_helmet", () -> new SculkHelmetItem(
+            ModArmorMaterials.SCULK,
+            ArmorItem.Type.HELMET,
+            new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(15))
+    ));
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(
             Registries.CREATIVE_MODE_TAB, MODID);
@@ -99,6 +102,7 @@ public class Sculknrun {
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
         ModDataComponentTypes.register(modEventBus);
+        ModArmorMaterials.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
 
