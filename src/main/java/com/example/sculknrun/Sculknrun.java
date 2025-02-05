@@ -8,6 +8,7 @@ import com.example.sculknrun.effect.ModMobEffects;
 import com.example.sculknrun.item.QuasarItem;
 import com.example.sculknrun.item.SculkHelmetItem;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
+import com.example.sculknrun.item.tier.SculkTier;
 import com.example.sculknrun.particle.ModParticleTypes;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
@@ -71,6 +72,33 @@ public class Sculknrun {
             ArmorItem.Type.HELMET,
             new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(15))
     ));
+    public static final DeferredItem<SwordItem> SCULKHANDER1 = ITEMS.register(
+            "sculkhander1",
+            () -> new SwordItem(
+                    new SculkTier(),
+                    new Item.Properties()
+                            .stacksTo(1).
+                            attributes(SwordItem.createAttributes(
+                                    new SculkTier(),
+                                    3,
+                                    -2.4F
+                            ))
+            )
+    );
+    public static final DeferredItem<SwordItem> SCULKHANDER2 = ITEMS.register(
+            "sculkhander2",
+            () -> new SwordItem(
+                    new SculkTier(),
+                    new Item.Properties()
+                            .stacksTo(1).
+                            attributes(SwordItem.createAttributes(
+                                    new SculkTier(),
+                                    3,
+                                    -2.4F
+                            ))
+            )
+    );
+
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(
             Registries.CREATIVE_MODE_TAB, MODID);

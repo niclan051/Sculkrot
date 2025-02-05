@@ -46,6 +46,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(Sculknrun.SUPERSONIC_BOLT.asItem());
         basicItem(Sculknrun.SCULK_WINE.asItem());
         basicItem(Sculknrun.SCULK_HELMET.asItem());
+        handheld(Sculknrun.SCULKHANDER1.asItem());
+        handheld(Sculknrun.SCULKHANDER2.asItem());
 
         basicItem(ResourceLocation.fromNamespaceAndPath(Sculknrun.MODID, "sculkinomicon"));
     }
