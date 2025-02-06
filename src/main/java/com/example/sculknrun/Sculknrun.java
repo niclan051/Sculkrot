@@ -19,6 +19,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
@@ -53,11 +54,24 @@ public class Sculknrun {
             "sculk_node", () -> new SculkNodeBlock(
                     BlockBehaviour.Properties.of().mapColor(MapColor.STONE))
     );
+
+    public static final DeferredBlock<VineBlock> RESIN_TEARS = BLOCKS.registerBlock(
+            "resin_tears",
+            VineBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.VINE)
+    );
+
+
     // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> SCULK_NODE_ITEM = ITEMS.registerSimpleBlockItem(
             "sculk_node", SCULK_NODE);
+    public static final DeferredItem<BlockItem> RESIN_TEARS_ITEM = ITEMS.registerSimpleBlockItem(
+            "resin_tears", RESIN_TEARS);
+
+    public static final DeferredItem<Item> RESIN_TEAR = ITEMS.registerSimpleItem("resin_tear");
+    public static final DeferredItem<Item> RESIN_INGOT = ITEMS.registerSimpleItem("resin_ingot");
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final DeferredItem<Item> SCULK_WINE = ITEMS.registerSimpleItem("sculk_wine", new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEdible().nutrition(4).saturationModifier(2f).build()));

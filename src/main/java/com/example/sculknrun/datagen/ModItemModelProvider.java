@@ -46,6 +46,9 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(Sculknrun.SUPERSONIC_BOLT.asItem());
         basicItem(Sculknrun.SCULK_WINE.asItem());
         basicItem(Sculknrun.SCULK_HELMET.asItem());
+        basicItem(Sculknrun.RESIN_TEAR.asItem());
+        basicItem(Sculknrun.RESIN_INGOT.asItem());
+
         handheld(Sculknrun.SCULKHANDER1.asItem());
         handheld(Sculknrun.SCULKHANDER2.asItem());
 
