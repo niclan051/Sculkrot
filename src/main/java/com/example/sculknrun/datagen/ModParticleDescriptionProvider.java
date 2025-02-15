@@ -14,5 +14,6 @@ public class ModParticleDescriptionProvider extends ParticleDescriptionProvider 
     @Override
     protected void addDescriptions() {
         sprite(ModParticleTypes.QUASAR_BOLT.get(), ModParticleTypes.QUASAR_BOLT.getId());
+        sprite(ModParticleTypes.RESIN_TEARS.get(), ModParticleTypes.RESIN_TEARS.getId());
     }
 }

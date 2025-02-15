@@ -1,6 +1,7 @@
 package com.example.sculknrun;
 
 import com.example.sculknrun.armor.ModArmorMaterials;
+import com.example.sculknrun.block.ResinTearsBlock;
 import com.example.sculknrun.block.SculkNodeBlock;
 import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
@@ -10,6 +11,7 @@ import com.example.sculknrun.item.SculkHelmetItem;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
 import com.example.sculknrun.item.tier.SculkTier;
 import com.example.sculknrun.particle.ModParticleTypes;
+import com.example.sculknrun.particle.provider.ResinTearsParticleProvider;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -57,8 +59,10 @@ public class Sculknrun {
 
     public static final DeferredBlock<VineBlock> RESIN_TEARS = BLOCKS.registerBlock(
             "resin_tears",
-            VineBlock::new,
+            ResinTearsBlock::new,
             BlockBehaviour.Properties.ofFullCopy(Blocks.VINE)
+                    .emissiveRendering((state, blockGetter, pos) -> true)
+                    .lightLevel(state -> 7)
     );
 
 
@@ -228,6 +232,7 @@ public class Sculknrun {
         @SubscribeEvent
         public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ModParticleTypes.QUASAR_BOLT.get(), LodestoneWorldParticleType.Factory::new);
+            event.registerSpriteSet(ModParticleTypes.RESIN_TEARS.get(), ResinTearsParticleProvider::new);
         }
     }
 }
