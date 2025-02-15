@@ -3,6 +3,7 @@ package com.example.sculknrun;
 import com.example.sculknrun.armor.ModArmorMaterials;
 import com.example.sculknrun.block.ResinTearsBlock;
 import com.example.sculknrun.block.SculkNodeBlock;
+import com.example.sculknrun.block.SculkshroomBlock;
 import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
@@ -12,6 +13,7 @@ import com.example.sculknrun.item.component.ModDataComponentTypes;
 import com.example.sculknrun.item.tier.SculkTier;
 import com.example.sculknrun.particle.ModParticleTypes;
 import com.example.sculknrun.particle.provider.ResinTearsParticleProvider;
+import com.example.sculknrun.potion.ModPotions;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -65,6 +67,12 @@ public class Sculknrun {
                     .lightLevel(state -> 7)
     );
 
+    public static final DeferredBlock<SculkshroomBlock> SCULKSHROOM = BLOCKS.registerBlock(
+            "sculkshroom",
+            SculkshroomBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM)
+    );
+
 
     // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
@@ -73,6 +81,8 @@ public class Sculknrun {
             "sculk_node", SCULK_NODE);
     public static final DeferredItem<BlockItem> RESIN_TEARS_ITEM = ITEMS.registerSimpleBlockItem(
             "resin_tears", RESIN_TEARS);
+    public static final DeferredItem<BlockItem> SCULKSHROOM_ITEM = ITEMS.registerSimpleBlockItem(
+            "sculkshroom", SCULKSHROOM);
 
     public static final DeferredItem<Item> RESIN_TEAR = ITEMS.registerSimpleItem("resin_tear");
     public static final DeferredItem<Item> RESIN_INGOT = ITEMS.registerSimpleItem("resin_ingot");
@@ -156,6 +166,7 @@ public class Sculknrun {
         CREATIVE_MODE_TABS.register(modEventBus);
 
         ModMobEffects.register(modEventBus);
+        ModPotions.register(modEventBus);
         ModBlockEntityTypes.register(modEventBus);
         ModParticleTypes.register(modEventBus);
 

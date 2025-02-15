@@ -35,6 +35,8 @@ public final class ModBlockEntityTypes {
             "sculk_node",
             () -> BlockEntityType.Builder.of(SculkNodeBlockEntity::new, Sculknrun.SCULK_NODE.get())
     );
-
-
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<?>> SCULKSHROOM = register(
+            "sculkshroom",
+            () -> BlockEntityType.Builder.of(SculkshroomBlockEntity::new, Sculknrun.SCULKSHROOM.get())
+    );
 }
