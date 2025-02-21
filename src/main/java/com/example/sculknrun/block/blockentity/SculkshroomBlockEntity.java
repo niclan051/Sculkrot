@@ -40,7 +40,7 @@ public class SculkshroomBlockEntity extends BlockEntity {
         Vec3 centerPos = blockPos.getCenter();
         AreaEffectCloud effectCloud = new AreaEffectCloud(level, centerPos.x(), centerPos.y(), centerPos.z());
         effectCloud.setDuration(5);
-        effectCloud.setRadius(3);
+        effectCloud.setRadius(2);
         effectCloud.setParticle(ModParticleTypes.RESIN_TEARS.get());
         effectCloud.setPotionContents(new PotionContents(ModPotions.STRONG_SCULKED));
         level.addFreshEntity(effectCloud);
