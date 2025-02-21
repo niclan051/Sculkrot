@@ -18,6 +18,13 @@ repositories {
     maven {
         url = 'https://maven.blamejared.com/'
     }
+    maven {
+        name = 'GeckoLib'
+        url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
+        content {
+            includeGroup("software.bernie.geckolib")
+        }
+    }
 }
 
 base {
@@ -37,7 +44,7 @@ neoForge {
     }
 
     // This line is optional. Access Transformers are automatically detected
-    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformers = project.files('src/main/templates/META-INF/accesstransformer.cfg')
 
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -137,6 +144,8 @@ dependencies {
 
     compileOnly "vazkii.patchouli:Patchouli:${patchouli_version}:api"
     runtimeOnly "vazkii.patchouli:Patchouli:${patchouli_version}"
+
+    implementation "software.bernie.geckolib:geckolib-neoforge-${minecraft_version}:${geckolib_version}"
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

@@ -1,13 +1,19 @@
 package com.example.sculknrun;
 
+import com.example.sculknrun.armor.ModArmorMaterials;
+import com.example.sculknrun.block.ResinTearsBlock;
 import com.example.sculknrun.block.SculkNodeBlock;
+import com.example.sculknrun.block.SculkshroomBlock;
 import com.example.sculknrun.block.blockentity.ModBlockEntityTypes;
 import com.example.sculknrun.datagen.SculknrunDataGenerator;
 import com.example.sculknrun.effect.ModMobEffects;
-import com.example.sculknrun.gameevent.ModGameEvents;
 import com.example.sculknrun.item.QuasarItem;
+import com.example.sculknrun.item.SculkHelmetItem;
 import com.example.sculknrun.item.component.ModDataComponentTypes;
+import com.example.sculknrun.item.tier.SculkTier;
 import com.example.sculknrun.particle.ModParticleTypes;
+import com.example.sculknrun.particle.provider.ResinTearsParticleProvider;
+import com.example.sculknrun.potion.ModPotions;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -15,11 +21,9 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 import net.neoforged.api.distmarker.Dist;
@@ -54,11 +58,34 @@ public class Sculknrun {
             "sculk_node", () -> new SculkNodeBlock(
                     BlockBehaviour.Properties.of().mapColor(MapColor.STONE))
     );
+
+    public static final DeferredBlock<VineBlock> RESIN_TEARS = BLOCKS.registerBlock(
+            "resin_tears",
+            ResinTearsBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.VINE)
+                    .emissiveRendering((state, blockGetter, pos) -> true)
+                    .lightLevel(state -> 7)
+    );
+
+    public static final DeferredBlock<SculkshroomBlock> SCULKSHROOM = BLOCKS.registerBlock(
+            "sculkshroom",
+            SculkshroomBlock::new,
+            BlockBehaviour.Properties.ofFullCopy(Blocks.RED_MUSHROOM)
+    );
+
+
     // Create a Deferred Register to hold Items which will all be registered under the "examplemod" namespace
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
     // Creates a new BlockItem with the id "examplemod:example_block", combining the namespace and path
     public static final DeferredItem<BlockItem> SCULK_NODE_ITEM = ITEMS.registerSimpleBlockItem(
             "sculk_node", SCULK_NODE);
+    public static final DeferredItem<BlockItem> RESIN_TEARS_ITEM = ITEMS.registerSimpleBlockItem(
+            "resin_tears", RESIN_TEARS);
+    public static final DeferredItem<BlockItem> SCULKSHROOM_ITEM = ITEMS.registerSimpleBlockItem(
+            "sculkshroom", SCULKSHROOM);
+
+    public static final DeferredItem<Item> RESIN_TEAR = ITEMS.registerSimpleItem("resin_tear");
+    public static final DeferredItem<Item> RESIN_INGOT = ITEMS.registerSimpleItem("resin_ingot");
     // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
     public static final DeferredItem<Item> SCULK_WINE = ITEMS.registerSimpleItem("sculk_wine", new Item.Properties().food(new FoodProperties.Builder()
             .alwaysEdible().nutrition(4).saturationModifier(2f).build()));
@@ -68,6 +95,38 @@ public class Sculknrun {
             "quasar",
             () -> new QuasarItem(new Item.Properties().stacksTo(1))
     );
+    public static final DeferredItem<ArmorItem> SCULK_HELMET = ITEMS.register("sculk_helmet", () -> new SculkHelmetItem(
+            ModArmorMaterials.SCULK,
+            ArmorItem.Type.HELMET,
+            new Item.Properties().durability(ArmorItem.Type.HELMET.getDurability(15))
+    ));
+    public static final DeferredItem<SwordItem> SCULKHANDER1 = ITEMS.register(
+            "sculkhander1",
+            () -> new SwordItem(
+                    new SculkTier(),
+                    new Item.Properties()
+                            .stacksTo(1).
+                            attributes(SwordItem.createAttributes(
+                                    new SculkTier(),
+                                    3,
+                                    -2.4F
+                            ))
+            )
+    );
+    public static final DeferredItem<SwordItem> SCULKHANDER2 = ITEMS.register(
+            "sculkhander2",
+            () -> new SwordItem(
+                    new SculkTier(),
+                    new Item.Properties()
+                            .stacksTo(1).
+                            attributes(SwordItem.createAttributes(
+                                    new SculkTier(),
+                                    3,
+                                    -2.4F
+                            ))
+            )
+    );
+
     // Create a Deferred Register to hold CreativeModeTabs which will all be registered under the "examplemod" namespace
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(
             Registries.CREATIVE_MODE_TAB, MODID);
@@ -99,6 +158,7 @@ public class Sculknrun {
         // Register the Deferred Register to the mod event bus so blocks get registered
         BLOCKS.register(modEventBus);
         ModDataComponentTypes.register(modEventBus);
+        ModArmorMaterials.register(modEventBus);
         // Register the Deferred Register to the mod event bus so items get registered
         ITEMS.register(modEventBus);
 
@@ -106,6 +166,7 @@ public class Sculknrun {
         CREATIVE_MODE_TABS.register(modEventBus);
 
         ModMobEffects.register(modEventBus);
+        ModPotions.register(modEventBus);
         ModBlockEntityTypes.register(modEventBus);
         ModParticleTypes.register(modEventBus);
 
@@ -182,6 +243,7 @@ public class Sculknrun {
         @SubscribeEvent
         public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
             event.registerSpriteSet(ModParticleTypes.QUASAR_BOLT.get(), LodestoneWorldParticleType.Factory::new);
+            event.registerSpriteSet(ModParticleTypes.RESIN_TEARS.get(), ResinTearsParticleProvider::new);
         }
     }
 }

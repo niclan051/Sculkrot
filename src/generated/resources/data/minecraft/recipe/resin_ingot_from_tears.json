@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "resin_ingot",
+  "key": {
+    "#": {
+      "item": "sculknrun:resin_tear"
+    }
+  },
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "sculknrun:resin_ingot"
+  }
+}
