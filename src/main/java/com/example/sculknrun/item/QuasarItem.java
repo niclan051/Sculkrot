@@ -73,6 +73,7 @@ public class QuasarItem extends Item {
                     AABB box = AABB.ofSize(pos, 10, 10, 10);
                     level.getEntitiesOfClass(LivingEntity.class, box)
                             .stream()
+                            .filter(living -> living != user)
                             .filter(living -> living.distanceToSqr(pos) <= 3 * 3)
                             .forEach(living -> entityToDamage.put(
                                     living,
