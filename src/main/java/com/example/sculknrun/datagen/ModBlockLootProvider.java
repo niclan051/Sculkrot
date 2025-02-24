@@ -35,5 +35,6 @@ public class ModBlockLootProvider extends BlockLootSubProvider {
         );
 
         dropSelf(Sculknrun.SCULK_NODE.get());
+        dropSelf(Sculknrun.SCULKSHROOM.get());
     }
 }

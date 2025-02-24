@@ -1,5 +1,9 @@
 {
   "textures": [
-    "sculknrun:resin_tears"
+    "sculknrun:resin_tears_0",
+    "sculknrun:resin_tears_1",
+    "sculknrun:resin_tears_2",
+    "sculknrun:resin_tears_3",
+    "sculknrun:resin_tears_4"
   ]
 }
