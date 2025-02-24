@@ -76,7 +76,7 @@ public class QuasarItem extends Item {
                             .filter(living -> living.distanceToSqr(pos) <= 3 * 3)
                             .forEach(living -> entityToDamage.put(
                                     living,
-                                    (14 / (living.position().distanceTo(pos) + 1))
+                                    (150 / (living.position().distanceTo(pos) + 1))
                             ));
                 }
         );
