@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "com.example.sculkrot.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "sculkrot.refmap.json",
+  "client": [
+    "GuiMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8.4",
+  "mixins": [
+    "GameEventMixin"
+  ]
+}

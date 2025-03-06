@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "sculkrot:block/sculk_node_bottom",
+    "side": "sculkrot:block/sculk_node_side",
+    "top": "sculkrot:block/sculk_node_top"
+  }
+}

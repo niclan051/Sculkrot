@@ -4,7 +4,7 @@
   "group": "resin_ingot",
   "key": {
     "#": {
-      "item": "sculknrun:resin_tear"
+      "item": "sculkrot:resin_tear"
     }
   },
   "pattern": [
@@ -14,6 +14,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "sculknrun:resin_ingot"
+    "id": "sculkrot:resin_ingot"
   }
 }
