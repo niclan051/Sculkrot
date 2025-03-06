@@ -1,6 +1,0 @@
-{
-  "parent": "sculknrun:item/quasar",
-  "textures": {
-    "layer0": "sculknrun:item/quasar_charged"
-  }
-}

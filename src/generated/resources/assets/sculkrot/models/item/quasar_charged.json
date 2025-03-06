@@ -1,0 +1,6 @@
+{
+  "parent": "sculkrot:item/quasar",
+  "textures": {
+    "layer0": "sculkrot:item/quasar_charged"
+  }
+}

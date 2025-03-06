@@ -1,8 +1,0 @@
-{
-  "name": "sculknrun.patchouli.sculkinomicon.name",
-  "landing_text": "sculknrun.patchouli.sculkinomicon.landing",
-  "creative_tab": "sculknrun:sculknrun",
-  "model": "sculknrun:sculkinomicon",
-  "i18n": true,
-  "use_resource_pack": true
-}

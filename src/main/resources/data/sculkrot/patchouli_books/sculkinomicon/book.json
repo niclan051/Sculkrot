@@ -1,0 +1,8 @@
+{
+  "name": "sculkrot.patchouli.sculkinomicon.name",
+  "landing_text": "sculkrot.patchouli.sculkinomicon.landing",
+  "creative_tab": "sculkrot:sculkrot",
+  "model": "sculkrot:sculkinomicon",
+  "i18n": true,
+  "use_resource_pack": true
+}
