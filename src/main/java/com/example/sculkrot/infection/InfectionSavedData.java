@@ -75,7 +75,7 @@ public class InfectionSavedData extends SavedData {
     }
 
     public record UpdatePayload(int infectionLevel) implements CustomPacketPayload {
-        private static final CustomPacketPayload.Type<UpdatePayload> TYPE =
+        public static final CustomPacketPayload.Type<UpdatePayload> TYPE =
                 new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(SculkrotMod.MODID, "infection"));
 
         public static final StreamCodec<ByteBuf, UpdatePayload> STREAM_CODEC = StreamCodec.composite(
