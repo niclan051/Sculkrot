@@ -44,9 +44,20 @@ public class SculkNodeBlockEntity extends BlockEntity
 
     private static void applySculkedEffect(Level level, BlockPos blockPos) {
         AABB effectArea = AABB.encapsulatingFullBlocks(blockPos, blockPos).inflate(10);
-        level.getEntitiesOfClass(LivingEntity.class, effectArea).forEach(livingEntity -> livingEntity.addEffect(
-                new MobEffectInstance(ModMobEffects.SCULKED, 20 * 10, 0, true, true)
-        ));
+        level.getEntitiesOfClass(LivingEntity.class, effectArea).forEach(livingEntity -> {
+
+            int lvl = (int) (lerp(
+                    50, 0,
+                    Math.clamp((livingEntity.position().distanceTo(blockPos.getCenter()) - 1) / 10.0, 0, 1)
+            ));
+            livingEntity.addEffect(
+                    new MobEffectInstance(ModMobEffects.SCULKED, 20 * 10, lvl, true, true)
+            );
+        });
+    }
+
+    private static double lerp(double a, double b, double t) {
+        return a * (1.0 - t) + (b * t);
     }
 
     private static void tickSpreadSculk(Level level, BlockPos blockPos, SculkNodeBlockEntity blockEntity) {
