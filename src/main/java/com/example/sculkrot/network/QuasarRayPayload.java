@@ -8,8 +8,8 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
-import team.lodestar.lodestone.systems.easing.Easing;
 import team.lodestar.lodestone.systems.network.OneSidedPayloadData;
+import team.lodestar.lodestone.systems.particle.SimpleParticleOptions;
 import team.lodestar.lodestone.systems.particle.builder.WorldParticleBuilder;
 import team.lodestar.lodestone.systems.particle.data.GenericParticleData;
 import team.lodestar.lodestone.systems.particle.world.behaviors.components.DirectionalBehaviorComponent;
@@ -32,22 +32,13 @@ public class QuasarRayPayload extends OneSidedPayloadData {
     public void handle(IPayloadContext context) {
         WorldParticleBuilder deathRayParticles =
                 WorldParticleBuilder.create(
-                                            ModParticleTypes.QUASAR_BOLT,
+                                            ModParticleTypes.QUASAR_BEAM,
                                             new DirectionalBehaviorComponent(this.end.subtract(this.start))
                                     )
-                                    .setScaleData(
-                                            GenericParticleData.create(3f, 0f)
-                                                               .setEasing(new Easing("fast") {
-                                                                   @Override
-                                                                   public float ease(float value, float min, float max,
-                                                                                     float time) {
-                                                                       return (float) (
-                                                                               Math.pow(value / (time / 3), 2.5) *
-                                                                               max + min);
-                                                                   }
-                                                               }).build())
                                     .setTransparencyData(GenericParticleData.create(1f).build())
-                                    .setLifetime(40)
+                                    .setScaleData(GenericParticleData.create(1f).build())
+                                    .setLifetime(20)
+                                    .setSpritePicker(SimpleParticleOptions.ParticleSpritePicker.WITH_AGE)
                                     .enableNoClip();
 
         RayUtils.performOnRay(

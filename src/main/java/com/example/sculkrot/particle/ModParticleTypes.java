@@ -12,10 +12,14 @@ import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticl
 public final class ModParticleTypes {
     private static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES =
             DeferredRegister.create(BuiltInRegistries.PARTICLE_TYPE, SculkrotMod.MODID);
-
     public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> QUASAR_BOLT =
             PARTICLE_TYPES.register(
                     "quasar_bolt",
+                    LodestoneWorldParticleType::new
+            );
+    public static final DeferredHolder<ParticleType<?>, LodestoneWorldParticleType> QUASAR_BEAM =
+            PARTICLE_TYPES.register(
+                    "quasar_beam",
                     LodestoneWorldParticleType::new
             );
 
