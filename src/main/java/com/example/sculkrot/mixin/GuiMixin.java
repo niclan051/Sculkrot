@@ -35,6 +35,36 @@ public abstract class GuiMixin {
         return pSprite;
     }
 
+    @Inject(method = "renderItemHotbar", at = @At(value = "TAIL"))
+    private void renderSculkHotbar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+        var player = Minecraft.getInstance().player;
+        if (player.hasEffect(ModMobEffects.SCULKED)) {
+            int lvl = 1 + player.getEffect(ModMobEffects.SCULKED).getAmplifier();
+
+            int startX = guiGraphics.guiWidth() / 2 - 91;
+            int startY = guiGraphics.guiHeight() - 22;
+            int width = 182;
+            int height = 22;
+
+            double uWidth = (width * Math.min(1, lvl / 50.0));
+            ResourceLocation sculkHotbar = ResourceLocation.fromNamespaceAndPath(SculkrotMod.MODID, "sculk_hotbar");
+
+            guiGraphics.pose().pushPose();
+            {
+                guiGraphics.pose().translate(0, 0, 1000);
+                guiGraphics.blitSprite(
+                        sculkHotbar,
+                        width, height,
+                        0, 0,
+                        startX, startY,
+                        0, (int) uWidth, height
+                );
+            }
+            guiGraphics.pose().popPose();
+        }
+    }
+
+
     @Inject(method = "render", at = @At("TAIL"))
     private void renderInfectionBar(GuiGraphics guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
         int startX = 20;
@@ -50,7 +80,8 @@ public abstract class GuiMixin {
 
         ResourceLocation background = ResourceLocation.fromNamespaceAndPath(
                 SculkrotMod.MODID,
-                "infection/infection_background");
+                "infection/infection_background"
+        );
         ResourceLocation bar = ResourceLocation.fromNamespaceAndPath(SculkrotMod.MODID, "infection/infection_bar");
         ResourceLocation number = ResourceLocation.fromNamespaceAndPath(
                 SculkrotMod.MODID,
@@ -63,12 +94,13 @@ public abstract class GuiMixin {
         int barX = startX + numberWidth + padding;
         int barY = middleY - barHeight / 2;
         guiGraphics.blitSprite(background, barX, barY, barWidth, barHeight);
-        guiGraphics.blitSprite(bar,
-                               barWidth, barHeight,
-                               0, 0,
-                               barX, barY,
-                               0,
-                               (int) (barWidth * SculkrotMod.infectionLevel / 10.0), barHeight
+        guiGraphics.blitSprite(
+                bar,
+                barWidth, barHeight,
+                0, 0,
+                barX, barY,
+                0,
+                (int) (barWidth * SculkrotMod.infectionLevel / 10.0), barHeight
         );
 
     }
