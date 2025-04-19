@@ -49,6 +49,7 @@ public final class ModClientEvents {
     @SubscribeEvent
     public static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticleTypes.QUASAR_BOLT.get(), LodestoneWorldParticleType.Factory::new);
+        event.registerSpriteSet(ModParticleTypes.QUASAR_BEAM.get(), LodestoneWorldParticleType.Factory::new);
         event.registerSpriteSet(ModParticleTypes.RESIN_TEARS.get(), ResinTearsParticleProvider::new);
     }
 }
