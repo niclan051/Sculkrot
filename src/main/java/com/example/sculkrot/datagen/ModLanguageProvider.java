@@ -29,6 +29,9 @@ public class ModLanguageProvider extends LanguageProvider {
             if (registry.get() instanceof BlockItem) continue;
             this.item(registry);
         }
+        for (DeferredHolder<Block, ? extends Block> registry : ModBlocks.getBlocks()) {
+            this.block(registry);
+        }
 
         this.add("sculkrot.patchouli.sculkinomicon.name", "Sculkinomicon");
         this.add("sculkrot.patchouli.sculkinomicon.landing", "Welcome to the Sculkinomicon");
