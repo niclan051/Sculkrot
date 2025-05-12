@@ -1,6 +1,6 @@
 package com.example.sculkrot.datagen;
 
-import com.example.sculkrot.item.ModItems;
+import com.example.sculkrot.init.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;

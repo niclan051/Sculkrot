@@ -1,7 +1,7 @@
 package com.example.sculkrot.mixin;
 
 import com.example.sculkrot.SculkrotMod;
-import com.example.sculkrot.effect.ModMobEffects;
+import com.example.sculkrot.init.ModMobEffects;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

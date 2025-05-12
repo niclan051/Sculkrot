@@ -1,10 +1,10 @@
 package com.example.sculkrot.client;
 
 import com.example.sculkrot.SculkrotMod;
-import com.example.sculkrot.item.ModItems;
-import com.example.sculkrot.item.QuasarItem;
-import com.example.sculkrot.particle.ModParticleTypes;
-import com.example.sculkrot.particle.provider.ResinTearsParticleProvider;
+import com.example.sculkrot.init.ModItems;
+import com.example.sculkrot.common.item.QuasarItem;
+import com.example.sculkrot.init.ModParticleTypes;
+import com.example.sculkrot.common.particle.provider.ResinTearsParticleProvider;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;

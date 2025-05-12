@@ -1,7 +1,7 @@
 package com.example.sculkrot.datagen;
 
-import com.example.sculkrot.block.ModBlocks;
-import com.example.sculkrot.item.ModItems;
+import com.example.sculkrot.init.ModBlocks;
+import com.example.sculkrot.init.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.world.flag.FeatureFlags;

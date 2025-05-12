@@ -1,6 +1,6 @@
 package com.example.sculkrot.network;
 
-import com.example.sculkrot.particle.ModParticleTypes;
+import com.example.sculkrot.init.ModParticleTypes;
 import com.example.sculkrot.utils.RayUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;

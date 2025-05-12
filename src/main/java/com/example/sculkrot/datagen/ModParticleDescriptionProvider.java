@@ -1,6 +1,6 @@
 package com.example.sculkrot.datagen;
 
-import com.example.sculkrot.particle.ModParticleTypes;
+import com.example.sculkrot.init.ModParticleTypes;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.ParticleDescriptionProvider;

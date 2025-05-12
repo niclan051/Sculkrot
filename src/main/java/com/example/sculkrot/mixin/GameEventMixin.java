@@ -1,6 +1,6 @@
 package com.example.sculkrot.mixin;
 
-import com.example.sculkrot.gameevent.ModGameEvents;
+import com.example.sculkrot.init.ModGameEvents;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

@@ -1,0 +1,15 @@
+{
+  "parent": "minecraft:item/handheld",
+  "base": {
+    "parent": "sculkrot:item/sculkhander_handheld"
+  },
+  "loader": "neoforge:separate_transforms",
+  "perspectives": {
+    "fixed": {
+      "parent": "sculkrot:item/sculkhander_handheld"
+    },
+    "gui": {
+      "parent": "sculkrot:item/sculkhander_gui"
+    }
+  }
+}

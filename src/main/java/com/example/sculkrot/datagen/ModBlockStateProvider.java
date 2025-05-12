@@ -1,6 +1,6 @@
 package com.example.sculkrot.datagen;
 
-import com.example.sculkrot.block.ModBlocks;
+import com.example.sculkrot.init.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;

@@ -1,7 +1,12 @@
 {
-  "block.sculkrot.sculk_node": "Sculk Node",
   "effect.sculkrot.sculked": "Sculked",
   "item.sculkrot.quasar": "Quasar",
+  "item.sculkrot.resin_ingot": "Resin Ingot",
+  "item.sculkrot.resin_tear": "Resin Tear",
+  "item.sculkrot.sculk_helmet": "Sculk Helmet",
+  "item.sculkrot.sculk_wine": "Sculk Wine",
+  "item.sculkrot.sculkhander": "Sculkhander",
+  "item.sculkrot.supersonic_bolt": "Supersonic Bolt",
   "sculkrot.patchouli.sculkinomicon.landing": "Welcome to the Sculkinomicon",
   "sculkrot.patchouli.sculkinomicon.name": "Sculkinomicon"
 }

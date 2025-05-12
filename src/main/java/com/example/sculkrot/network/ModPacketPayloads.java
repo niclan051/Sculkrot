@@ -1,7 +1,7 @@
 package com.example.sculkrot.network;
 
 import com.example.sculkrot.SculkrotMod;
-import com.example.sculkrot.infection.InfectionSavedData;
+import com.example.sculkrot.common.infection.InfectionSavedData;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
