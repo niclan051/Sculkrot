@@ -3,10 +3,12 @@ package com.example.sculkrot.datagen;
 import com.example.sculkrot.init.ModBlocks;
 import com.example.sculkrot.init.ModMobEffects;
 import com.example.sculkrot.init.ModItems;
+import com.example.sculkrot.init.data.ModDamageTypes;
 import net.minecraft.core.Holder;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -15,6 +17,8 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.registries.DeferredHolder;
 
 import java.util.NoSuchElementException;
+
+import static com.example.sculkrot.SculkrotMod.MODID;
 
 public class ModLanguageProvider extends LanguageProvider {
     public ModLanguageProvider(PackOutput output, String modid) {
@@ -33,8 +37,25 @@ public class ModLanguageProvider extends LanguageProvider {
             this.block(registry);
         }
 
+        damageType(ModDamageTypes.SCULK, "%s succumbed to sculk");
+        damageTypeItem(ModDamageTypes.SCULK, "%s succumbed to sculk using %s");
+        damageTypePlayer(ModDamageTypes.SCULK, "%s succumbed to sculk whilst trying to escape %s");
+
         this.add("sculkrot.patchouli.sculkinomicon.name", "Sculkinomicon");
         this.add("sculkrot.patchouli.sculkinomicon.landing", "Welcome to the Sculkinomicon");
+    }
+
+    private void damageType(ResourceKey<DamageType> resourceKey, String name) {
+        String key = "death.attack.%s.%s".formatted(MODID, resourceKey.location().getPath());
+        this.add(key, name);
+    }
+    private void damageTypeItem(ResourceKey<DamageType> resourceKey, String name) {
+        String key = "death.attack.%s.%s.item".formatted(MODID, resourceKey.location().getPath());
+        this.add(key, name);
+    }
+    private void damageTypePlayer(ResourceKey<DamageType> resourceKey, String name) {
+        String key = "death.attack.%s.%s.player".formatted(MODID, resourceKey.location().getPath());
+        this.add(key, name);
     }
 
     private void tab(Holder<CreativeModeTab> tabHolder) {

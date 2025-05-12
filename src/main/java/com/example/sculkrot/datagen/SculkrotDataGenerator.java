@@ -1,6 +1,7 @@
 package com.example.sculkrot.datagen;
 
 import com.example.sculkrot.SculkrotMod;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.LootTableProvider;
@@ -10,12 +11,18 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 public class SculkrotDataGenerator {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         PackOutput output = generator.getPackOutput();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
+        CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
+
+        SculkrotGeneratedEntriesProvider generatedEntriesProvider = new SculkrotGeneratedEntriesProvider(output, lookupProvider);
+        lookupProvider = generatedEntriesProvider.getRegistryProvider();
+        generator.addProvider(event.includeServer(), generatedEntriesProvider);
 
         generator.addProvider(
                 event.includeClient(), new ModBlockStateProvider(output, SculkrotMod.MODID, existingFileHelper));

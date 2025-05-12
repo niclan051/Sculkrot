@@ -1,6 +1,7 @@
 package com.example.sculkrot.init;
 
 import com.example.sculkrot.SculkrotMod;
+import com.example.sculkrot.common.effect.MycotoxinMobEffect;
 import com.example.sculkrot.common.effect.SculkedMobEffect;
 import com.example.sculkrot.utils.RegistryUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -16,10 +17,8 @@ import java.util.function.Supplier;
 public final class ModMobEffects {
     public static final DeferredRegister<MobEffect> EFFECTS = RegistryUtils.createRegister(Registries.MOB_EFFECT);
 
-    public static final DeferredHolder<MobEffect, SculkedMobEffect> SCULKED = register(
-            "sculked",
-            () -> new SculkedMobEffect(MobEffectCategory.HARMFUL, 0x0A5060)
-    );
+    public static final DeferredHolder<MobEffect, SculkedMobEffect> SCULKED = register("sculked", () -> new SculkedMobEffect(MobEffectCategory.HARMFUL, 0x0A5060));
+    public static final DeferredHolder<MobEffect, MycotoxinMobEffect> MYCOTOXIN = register("mycotoxin", () -> new MycotoxinMobEffect(MobEffectCategory.HARMFUL, 0x0A7690));
 
     private static <T extends MobEffect> DeferredHolder<MobEffect, T> register(String id, Supplier<T> effect) {
         return EFFECTS.register(id, effect);
