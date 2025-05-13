@@ -1,6 +1,7 @@
 package com.example.sculkrot.init;
 
 import com.example.sculkrot.SculkrotMod;
+import com.example.sculkrot.common.armor.SculkArmourItem;
 import com.example.sculkrot.common.item.QuasarItem;
 import com.example.sculkrot.common.item.SculkHelmetItem;
 import com.example.sculkrot.common.item.tier.SculkTier;
@@ -33,11 +34,7 @@ public final class ModItems {
             "quasar", QuasarItem::new, new Item.Properties().stacksTo(1)
     );
     public static final DeferredItem<ArmorItem> SCULK_HELMET = register(
-            "sculk_helmet", properties -> new SculkHelmetItem(
-                    ModArmorMaterials.SCULK,
-                    ArmorItem.Type.HELMET,
-                    properties
-            )
+            "sculk_helmet", properties -> new SculkArmourItem(ArmorItem.Type.HELMET, properties)
     );
     public static final DeferredItem<SwordItem> SCULKHANDER = register(
             "sculkhander",

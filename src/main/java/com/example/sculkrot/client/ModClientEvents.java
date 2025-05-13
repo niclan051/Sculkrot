@@ -1,10 +1,12 @@
 package com.example.sculkrot.client;
 
 import com.example.sculkrot.SculkrotMod;
+import com.example.sculkrot.client.extension.ArmorClientItemExtensions;
 import com.example.sculkrot.init.ModItems;
 import com.example.sculkrot.common.item.QuasarItem;
 import com.example.sculkrot.init.ModParticleTypes;
 import com.example.sculkrot.common.particle.provider.ResinTearsParticleProvider;
+import com.example.sculkrot.init.client.ModelRegistry;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -13,6 +15,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import org.slf4j.Logger;
 import team.lodestar.lodestone.systems.particle.world.type.LodestoneWorldParticleType;
 
@@ -44,6 +47,12 @@ public final class ModClientEvents {
                         livingEntity != null && livingEntity.isUsingItem() && livingEntity.getUseItem() == stack ? 1
                                                                                                                  : 0
         );
+    }
+
+    @SubscribeEvent
+    public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new ArmorClientItemExtensions(() -> ModelRegistry.SCULK_ARMOUR),
+                ModItems.SCULK_HELMET);
     }
 
     @SubscribeEvent
