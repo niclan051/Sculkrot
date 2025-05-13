@@ -39,6 +39,7 @@ public class SculkArmourModel extends LodestoneArmorModel {
     @Override
     public void setupAnim(LivingEntity pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
         float pPartialTicks = Minecraft.getInstance().getFrameTimeNs();
+        var gay = true;
         super.setupAnim(pEntity, pLimbSwing, pLimbSwingAmount, pAgeInTicks, pNetHeadYaw, pHeadPitch);
     }
 
@@ -66,11 +67,11 @@ public class SculkArmourModel extends LodestoneArmorModel {
         PartDefinition mask = head.addOrReplaceChild("mask", CubeListBuilder.create().texOffs(0, 0).addBox(-4.5F, -8.5F, -4.5F, 9.0F, 9.0F, 9.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 14).addBox(-2.0F, -2.5F, 4.5F, 4.0F, 3.0F, 2.0F, new CubeDeformation(0.0F))
                 .texOffs(36, 4).addBox(-5.5F, -1.5F, 4.5F, 11.0F, 2.0F, 1.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 36).addBox(-5.0F, -0.5F, -4.5F, 10.0F, 1.0F, 9.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 36).addBox(-5.0F, -0.5F, -5.5F, 10.0F, 1.0F, 10.0F, new CubeDeformation(0.0F))
                 .texOffs(0, 18).addBox(-4.5F, -8.5F, -4.5F, 9.0F, 9.0F, 9.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, 0.0F, 0.5F));
 
         PartDefinition mask_filter = head.addOrReplaceChild("mask_filter", CubeListBuilder.create().texOffs(36, 0).addBox(-12.0F, -2.0F, -0.5F, 11.0F, 2.0F, 2.0F, new CubeDeformation(0.0F))
-                .texOffs(36, 7).addBox(-8.5F, -4.0F, -1.5F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.5F, 0.6F, -5.0F, 0.3927F, 0.0F, 0.0F));
+                .texOffs(48, 11).addBox(-8.5F, -4.0F, -1.5F, 4.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(6.5F, 0.6F, -5.0F, 0.3927F, 0.0F, 0.0F));
 
         return LayerDefinition.create(mesh, 128, 128);
     }
